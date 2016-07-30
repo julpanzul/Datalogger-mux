@@ -8,8 +8,11 @@ int s3 = 8;
 int SIG_1 = 1;
 int SIG_2 = 2;
 
+int x = 0;
 
 void setup(){
+  Serial.begin(9600);
+  
   pinMode(s0, OUTPUT); 
   pinMode(s1, OUTPUT); 
   pinMode(s2, OUTPUT); 
@@ -19,23 +22,31 @@ void setup(){
   digitalWrite(s1, LOW);
   digitalWrite(s2, LOW);
   digitalWrite(s3, LOW);
-
-  Serial.begin(9600);
+  
+  Serial.println("Berapa channel yang akan digunakan?");
 }
 
 
 void loop(){
+  if(Serial.available()){
+    char i = Serial.read();
+    if(i>='0' && i<='9'){
+      x = i - '0';
+    }
+  }
   //Mengambil nilai tiap channel
   //i = posisi channel
-  for(int i = 0; i < 16; i ++){
-    Serial.print("Value at channel ");
-    Serial.print(i);
-    Serial.print("is : ");
-    readMux(i);
-    Serial.print(analogRead(SIG_1), DEC);
-    Serial.print("\t");
-    Serial.println(analogRead(SIG_2), DEC);
-    delay(1000);
+  if(x > 0){
+    for(int i = 0; i < x; i ++){
+      Serial.print("Value at channel ");
+      Serial.print(i);
+      Serial.print("is : ");
+      readMux(i);
+      Serial.print(analogRead(SIG_1), DEC);
+      Serial.print("\t");
+      Serial.println(analogRead(SIG_2), DEC);
+      delay(1000);
+    }
   }
 }
 
