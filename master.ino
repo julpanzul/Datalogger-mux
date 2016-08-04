@@ -1,15 +1,15 @@
 //Pin kontrol (Digital)
-int s0 = 11;
-int s1 = 10;
-int s2 = 9;
-int s3 = 8;
+int s0 = 8;
+int s1 = 7;
+int s2 = 6;
+int s3 = 5;
 
-//Pin Input (Analog)
-int SIG_1 = 1;
-int SIG_2 = 2;
-
+//kriteria pada array
+int myMux[] = {1, 3, 1}
 
 void setup(){
+  Serial.begin(9600);
+  
   pinMode(s0, OUTPUT); 
   pinMode(s1, OUTPUT); 
   pinMode(s2, OUTPUT); 
@@ -20,22 +20,37 @@ void setup(){
   digitalWrite(s2, LOW);
   digitalWrite(s3, LOW);
 
-  Serial.begin(9600);
 }
 
 
 void loop(){
   //Mengambil nilai tiap channel
-  //i = posisi channel
-  for(int i = 0; i < 16; i ++){
-    Serial.print("Value at channel ");
-    Serial.print(i);
-    Serial.print("is : ");
-    readMux(i);
-    Serial.print(analogRead(SIG_1), DEC);
-    Serial.print("\t");
-    Serial.println(analogRead(SIG_2), DEC);
-    delay(1000);
+  /*   
+  Serial.println("Logika merubah posisi channel dan pin cara tunggal:");
+  
+  for(int y=0; y<=channel; y++){
+    Serial.print("Input channel ");
+    Serial.println(y);
+    for(int z=0; z<=pin; z++){
+      Serial.print("\tpin ");
+      Serial.println(z);
+      delay(1000);
+    }
+  }
+*/
+  Serial.println("Logika merubah posisi pin cara multiple:");
+  
+  for(int j=0; j<=myMux[1]; j++){
+    for(int i=0; i<=myMux[0]; i++){
+      Serial.print("pin ");
+      Serial.print(j);
+      Serial.print(": ");
+      Serial.print(analogRead(i));
+      Serial.print("\t");
+      readMux(j);
+    }
+    Serial.println();
+    delay(myMux[2] * 1000);
   }
 }
 
@@ -62,7 +77,7 @@ int readMux(int channel){
     {1,1,1,1}  //channel 15
   };
 
-  for(int i = 0; i < 16; i ++){
+  for(int i = 0; i < myMux[1]; i ++){
     digitalWrite(controlPin[i], muxChannel[channel][i]);
   }
 }
