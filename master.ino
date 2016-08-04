@@ -1,3 +1,8 @@
+#include <LCD.h>
+#include <LiquidCrystal_SR.h>
+
+LiquidCrystal_SR lcd(2, 4, 3);
+
 //Pin kontrol (Digital)
 int s0 = 8;
 int s1 = 7;
@@ -5,10 +10,11 @@ int s2 = 6;
 int s3 = 5;
 
 //kriteria pada array
-int myMux[] = {1, 3, 1}
+int myMux[] = {1, 3, 1};
 
 void setup(){
   Serial.begin(9600);
+  lcd.begin(16, 2);
   
   pinMode(s0, OUTPUT); 
   pinMode(s1, OUTPUT); 
@@ -41,14 +47,19 @@ void loop(){
   Serial.println("Logika merubah posisi pin cara multiple:");
   
   for(int j=0; j<=myMux[1]; j++){
+    Serial.print("pin ");
+    Serial.print(j);
+    Serial.print(": ");
+    lcd.setCursor(0, 0);
+    lcd.print(j);
     for(int i=0; i<=myMux[0]; i++){
-      Serial.print("pin ");
-      Serial.print(j);
-      Serial.print(": ");
-      Serial.print(analogRead(i));
-      Serial.print("\t");
       readMux(j);
+      Serial.print(analogRead(i), DEC);
+      Serial.print("\t");
+      lcd.print("|");
+      lcd.print(analogRead(i), DEC);
     }
+    lcd.print("    ");
     Serial.println();
     delay(myMux[2] * 1000);
   }
