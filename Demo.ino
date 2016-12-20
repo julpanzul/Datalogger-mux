@@ -1,9 +1,11 @@
+// Inisiasi LCD
+// Sebelum compile pastikan sudah menginstall library LCD atau download di https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads
 #include <LCD.h>
 #include <LiquidCrystal_SR.h>
 
-LiquidCrystal_SR lcd(2, 4, 3);
+LiquidCrystal_SR lcd(2, 4, 3); // LCD menggunakan pin 2, 4, 3
 
-//Pin kontrol (Digital)
+//Pin kontrol (Digital) 5, 6, 7, 8
 int s0 = 8;
 int s1 = 7;
 int s2 = 6;
